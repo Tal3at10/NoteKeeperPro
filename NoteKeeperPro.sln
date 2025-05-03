@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteKeeperPro.Web", "NoteKeeperPro.Web\NoteKeeperPro.Web.csproj", "{CC3A16F3-1AF9-4AA6-B3F4-5605A4AEE05F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteKeeperPro.Application", "oteKeeperPro.Application\NoteKeeperPro.Application.csproj", "{1084FAC3-D7F1-4861-9CF1-8E72DFA6CA8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteKeeperPro.Domain", "NoteKeeperPro.Domain\NoteKeeperPro.Domain.csproj", "{357D669A-BDB5-4040-AF04-2BC77FAA888F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteKeeperPro.Infrastructure", "oteKeeperPro.Infrastructure\NoteKeeperPro.Infrastructure.csproj", "{990A908A-E2D7-4FCC-BD9B-E6A41B930F72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC3A16F3-1AF9-4AA6-B3F4-5605A4AEE05F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3A16F3-1AF9-4AA6-B3F4-5605A4AEE05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3A16F3-1AF9-4AA6-B3F4-5605A4AEE05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3A16F3-1AF9-4AA6-B3F4-5605A4AEE05F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1084FAC3-D7F1-4861-9CF1-8E72DFA6CA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1084FAC3-D7F1-4861-9CF1-8E72DFA6CA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1084FAC3-D7F1-4861-9CF1-8E72DFA6CA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1084FAC3-D7F1-4861-9CF1-8E72DFA6CA8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{357D669A-BDB5-4040-AF04-2BC77FAA888F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357D669A-BDB5-4040-AF04-2BC77FAA888F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357D669A-BDB5-4040-AF04-2BC77FAA888F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357D669A-BDB5-4040-AF04-2BC77FAA888F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{990A908A-E2D7-4FCC-BD9B-E6A41B930F72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{990A908A-E2D7-4FCC-BD9B-E6A41B930F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{990A908A-E2D7-4FCC-BD9B-E6A41B930F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{990A908A-E2D7-4FCC-BD9B-E6A41B930F72}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
