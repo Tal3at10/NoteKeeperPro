@@ -4,12 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Azure.Documents;
 using Microsoft.EntityFrameworkCore;
 using NoteKeeperPro.Domain.Entities.Collaborators;
 using NoteKeeperPro.Domain.Entities.Notes;
 using NoteKeeperPro.Domain.Entities.NotesInfo;
 using NoteKeeperPro.Domain.Entities.Tags;
+using NoteKeeperPro.Domain.Entities.Users;
 
 namespace NoteKeeperPro.Infrastructure.Presistance.Data
 {
