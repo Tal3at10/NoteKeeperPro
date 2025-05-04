@@ -12,7 +12,7 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Users
         IEnumerable<User> GetAll(bool AsNoTracking = true);
         User GetById(int id);
         int AddUser(User user);
-        int UpdaetUser(User user);
+        int UpdateUser(User user);
         int DeleteUser(User user);
 
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NoteKeeperPro.Domain.Entities.Users;
 
 namespace NoteKeeperPro.Domain.Entities.Collaborators
 {
@@ -11,11 +12,9 @@ namespace NoteKeeperPro.Domain.Entities.Collaborators
         Edit = 1,
         View = 2,
     }
-    public class Collaborator
+    public class Collaborator : User // Collaborator is a User
     {
-        public int Id { get; set; }
-       
-        public PermissionType PermissionType { get; set; }
+      public PermissionType PermissionType { get; set; }
 
     }
 }

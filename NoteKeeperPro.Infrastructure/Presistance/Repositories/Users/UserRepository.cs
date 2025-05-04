@@ -9,7 +9,7 @@ using NoteKeeperPro.Infrastructure.Presistance.Data;
 
 namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Users
 {
-    internal class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         // DataBase ==> Repositories ==> Services ==> Controllers
 
@@ -48,7 +48,7 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Users
             return _dbContext.Users.Find(id); // Search Localy , If Found Rteurn True , else send => Request Database 
         }
 
-        public int UpdaetUser(User user)
+        public int UpdateUser(User user)
         {
             _dbContext.Users.Update(user); // Saved Locally
             return _dbContext.SaveChanges(); // Apply Remotly
