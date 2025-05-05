@@ -15,7 +15,7 @@ namespace NoteKeeperPro.Application.Dtos.Collaborators
         public required string UserName { get; set; }
         public required string Password { get; set; }
         public required string PhoneNumber { get; set; }
-        public bool IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false; // feauture
         public PermissionType PermissionType { get; set; }
     }
 }
