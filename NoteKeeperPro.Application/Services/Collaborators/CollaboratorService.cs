@@ -94,7 +94,7 @@ namespace NoteKeeperPro.Application.Services.Collaborators
 
             if (collaborator != null)
             {
-                collaborator.IsDeleted = true; // Soft delete
+                collaborator.IsDeleted = true; // Soft   deleted
                 return _collaboratorRepository.UpdateCollaborator(collaborator) > 0;
             }
 
