@@ -7,7 +7,7 @@ using NoteKeeperPro.Domain.Entities.Collaborators;
 
 namespace NoteKeeperPro.Application.Dtos.Collaborators
 {
-    internal class CollaboratorToUpdateDto
+    public class CollaboratorToUpdateDto
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }

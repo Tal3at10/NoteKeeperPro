@@ -41,6 +41,11 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Notes
             return _dbContext.Notes.ToList();
         }
 
+        public IQueryable<Note> GetAllQuarable(bool AsNoTracking = true)
+        {
+            return _dbContext.Notes;
+        }
+
         public Note? GetById(int id)
         {
             return _dbContext.Notes.Find(id); // Search Localy , If Found Rteurn True , else send => Request Database 

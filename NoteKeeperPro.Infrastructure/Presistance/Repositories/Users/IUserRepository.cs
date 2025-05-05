@@ -10,6 +10,7 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Users
     public interface IUserRepository
     {
         IEnumerable<User> GetAll(bool AsNoTracking = true);
+        IQueryable<User> GetAllQuarable(bool AsNoTracking = true);
         User GetById(int id);
         int AddUser(User user);
         int UpdateUser(User user);

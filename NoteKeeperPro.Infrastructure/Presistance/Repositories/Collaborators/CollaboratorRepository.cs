@@ -41,6 +41,11 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Collaborators
             return _dbContext.Collaborators.ToList();
         }
 
+        public IQueryable<Collaborator> GetAllQuarable(bool AsNoTracking = true)
+        {
+            return _dbContext.Collaborators;
+        }
+
         public Collaborator? GetById(int id)
         {
             return _dbContext.Collaborators.Find(id); // Search Localy , If Found Rteurn True , else send => Request Database 

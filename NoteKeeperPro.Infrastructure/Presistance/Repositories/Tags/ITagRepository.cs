@@ -10,6 +10,7 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Tags
     public interface ITagRepository
     {
         IEnumerable<Tag> GetAll(bool AsNoTracking = true);
+        IQueryable<Tag> GetAllQuarable(bool AsNoTracking = true);
         Tag GetById(int id);
         int AddTag(Tag tag);
         int UpdateTag(Tag tag);

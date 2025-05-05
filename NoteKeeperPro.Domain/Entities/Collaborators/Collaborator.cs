@@ -15,6 +15,7 @@ namespace NoteKeeperPro.Domain.Entities.Collaborators
     public class Collaborator : User // Collaborator is a User
     {
       public PermissionType PermissionType { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
     }
 }

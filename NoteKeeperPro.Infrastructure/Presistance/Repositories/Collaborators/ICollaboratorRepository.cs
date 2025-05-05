@@ -10,6 +10,7 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Collaborators
     public interface ICollaboratorRepository
     {
         IEnumerable<Collaborator> GetAll(bool AsNoTracking = true);
+        IQueryable<Collaborator> GetAllQuarable(bool AsNoTracking = true);
         Collaborator GetById(int id);
         int AddCollaborator(Collaborator collaborator);
         int UpdateCollaborator(Collaborator collaborator);

@@ -38,6 +38,11 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Tags
             return _dbContext.Tags.ToList(); // Unchanged
         }
 
+        public IQueryable<Tag> GetAllQuarable(bool AsNoTracking = true)
+        {
+            return _dbContext.Tags;
+        }
+
         public Tag GetById(int id)
         {
             return _dbContext.Tags.Find(id); // Search locally first, then fallback to DB

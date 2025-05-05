@@ -7,13 +7,15 @@ using NoteKeeperPro.Domain.Entities.Collaborators;
 
 namespace NoteKeeperPro.Application.Dtos.Collaborators
 {
-    internal class CollaboratorToCreateDto
+    public class CollaboratorToCreateDto
     {
         public DateTime CreatedAt { get; set; }
         public required string Email { get; set; }
         public required string UserName { get; set; }
         public required string Password { get; set; }
         public required string PhoneNumber { get; set; }
+
+
         public PermissionType PermissionType { get; set; }
     }
 }

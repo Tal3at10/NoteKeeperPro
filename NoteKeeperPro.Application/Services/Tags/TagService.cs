@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NoteKeeperPro.Infrastructure.Presistance.Repositories.Tags;
 using NoteKeeperPro.Application.Dtos.Tags;
+using NoteKeeperPro.Domain.Entities.Tags;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.Tags;
 
 namespace NoteKeeperPro.Application.Services.Tags
@@ -18,29 +16,69 @@ namespace NoteKeeperPro.Application.Services.Tags
             _tagRepository = tagRepository;
         }
 
-        public int CreateTag(TagToCreateDto tag)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteTag(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<TagToReturnDto> GetAllTags()
         {
-            throw new NotImplementedException();
+            var tags = _tagRepository.GetAllQuarable()
+                .Where(t => t.IsDeleted == false)
+                .Select(t => new TagToReturnDto
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                }).ToList();
+
+            return tags;
         }
 
         public TagDetailsToReturnDto? GetTagById(int id)
         {
-            throw new NotImplementedException();
+            var tag = _tagRepository.GetById(id);
+
+            if (tag != null)
+            {
+                return new TagDetailsToReturnDto
+                {
+                    Id = tag.Id,
+                    Name = tag.Name,
+                  
+                };
+            }
+
+            return null;
+        }
+
+        public int CreateTag(TagToCreateDto tag)
+        {
+            var newTag = new Tag
+            {
+                Name = tag.Name,
+               
+            };
+
+            return _tagRepository.AddTag(newTag);
         }
 
         public int UpdateTag(TagToUpdateDto tag)
         {
-            throw new NotImplementedException();
+            var updatedTag = new Tag
+            {
+                Id = tag.Id,
+                Name = tag.Name,
+               
+            };
+
+            return _tagRepository.UpdateTag(updatedTag);
+        }
+
+        public bool DeleteTag(int id)
+        {
+            var tag = _tagRepository.GetById(id);
+
+            if (tag != null)
+            {
+                return _tagRepository.DeleteTag(tag) > 0;
+            }
+
+            return false;
         }
     }
 }

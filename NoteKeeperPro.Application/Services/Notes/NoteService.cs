@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NoteKeeperPro.Application.Dtos.Notes;
-using NoteKeeperPro.Infrastructure.Presistance.Repositories.Notes;
+using NoteKeeperPro.Domain.Entities.Notes;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.Notes;
 
 namespace NoteKeeperPro.Application.Services.Notes
@@ -18,29 +16,76 @@ namespace NoteKeeperPro.Application.Services.Notes
             _noteRepository = noteRepository;
         }
 
-        public int CreateNote(NoteToCreateDto note)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteNote(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<NoteToReturnDto> GetAllNotes()
         {
-            throw new NotImplementedException();
+            var notes = _noteRepository.GetAllQuarable()
+                .Where(n => n.IsDeleted == false)
+                .Select(n => new NoteToReturnDto
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                   
+                })
+                .ToList();
+
+            return notes;
         }
 
         public NoteDetailsToReturnDto? GetNoteById(int id)
         {
-            throw new NotImplementedException();
+            var note = _noteRepository.GetById(id);
+
+            if (note != null)
+            {
+                return new NoteDetailsToReturnDto
+                {
+                    Id = note.Id,
+                    Title = note.Title,
+                    Content = note.Content,
+                   
+                };
+            }
+
+            return null;
+        }
+
+        public int CreateNote(NoteToCreateDto note)
+        {
+            var newNote = new Note
+            {
+                Title = note.Title,
+                Content = note.Content,
+               
+            };
+
+            return _noteRepository.AddNote(newNote);
         }
 
         public int UpdateNote(NoteToUpdateDto note)
         {
-            throw new NotImplementedException();
+            var updatedNote = new Note
+            {
+                Id = note.Id,
+                Title = note.Title,
+                Content = note.Content,
+               
+            };
+
+            return _noteRepository.UpdateNote(updatedNote);
+        }
+
+        public bool DeleteNote(int id)
+        {
+            var note = _noteRepository.GetById(id);
+
+            if (note != null)
+            {
+                note.IsDeleted = true; // Soft delete
+                return _noteRepository.UpdateNote(note) > 0;
+            }
+
+            return false;
         }
     }
 }

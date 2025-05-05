@@ -42,6 +42,10 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Repositories.Users
             return _dbContext.Users.ToList();
         }
 
+        public IQueryable<User> GetAllQuarable(bool AsNoTracking = true)
+        {
+            return _dbContext.Users;
+        }
 
         public User? GetById(int id)
         {
