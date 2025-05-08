@@ -1,4 +1,4 @@
-namespace NoteKeeperPro.Web.Models
+namespace NoteKeeperPro.Web.ViewModels.Common
 {
     public class ErrorViewModel
     {

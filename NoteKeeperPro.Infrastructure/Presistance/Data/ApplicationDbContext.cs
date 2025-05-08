@@ -4,18 +4,21 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NoteKeeperPro.Domain.Entities.Collaborators;
 using NoteKeeperPro.Domain.Entities.Notes;
 using NoteKeeperPro.Domain.Entities.NotesInfo;
 using NoteKeeperPro.Domain.Entities.Tags;
 using NoteKeeperPro.Domain.Entities.Users;
+using NoteKeeperPro.Infrastructure.Identity;
 
 namespace NoteKeeperPro.Infrastructure.Presistance.Data
 {
     // Repository => ApplicationDbContext (DataBase) 
+    // ApplicationDbContext : IdentityUser
 
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions <ApplicationDbContext> options) : base(options)
         {
@@ -29,6 +32,7 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating (modelBuilder); 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Apply All Configurations Classes
         }
 
