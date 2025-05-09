@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace NoteKeeperPro.Infrastructure.Identity
+namespace NoteKeeperPro.Domain.Entities.ApplicationUsers
 {
     public class ApplicationUser : IdentityUser
     {

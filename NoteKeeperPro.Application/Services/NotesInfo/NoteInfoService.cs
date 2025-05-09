@@ -7,7 +7,7 @@ using NoteKeeperPro.Infrastructure.Presistance.Repositories.NotesInfo;
 
 namespace NoteKeeperPro.Application.Services.NotesInfo
 {
-    internal class NoteInfoService : INoteInfoService
+    public class NoteInfoService : INoteInfoService
     {
         private readonly INoteInfoRepository _noteInfoRepository;
 

@@ -7,7 +7,7 @@ using NoteKeeperPro.Application.Dtos.Tags;
 
 namespace NoteKeeperPro.Application.Services.Tags
 {
-    internal interface ITagService
+    public interface ITagService
     {
         IEnumerable<TagToReturnDto> GetAllTags();
         TagDetailsToReturnDto? GetTagById(int id);

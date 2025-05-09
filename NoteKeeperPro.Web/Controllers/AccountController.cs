@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NoteKeeperPro.Application.Common.Services.EmailSettings;
+using NoteKeeperPro.Domain.Entities.ApplicationUsers;
 using NoteKeeperPro.Infrastructure.Identity;
 using NoteKeeperPro.Web.ViewModels.Identity;
 using NuGet.Common;

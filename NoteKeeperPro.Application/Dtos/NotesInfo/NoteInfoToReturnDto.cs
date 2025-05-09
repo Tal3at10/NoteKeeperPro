@@ -13,5 +13,8 @@ namespace NoteKeeperPro.Application.Dtos.NotesInfo
         public DateTime LastModifiedAt { get; set; }
         public int WordCount { get; set; }
         public int CharchterCount { get; set; }
+
+        // Soft delete flag
+        public bool IsDeleted { get; set; } = false;
     }
 }

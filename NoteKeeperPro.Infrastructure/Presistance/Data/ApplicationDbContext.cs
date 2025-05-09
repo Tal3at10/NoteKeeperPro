@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using NoteKeeperPro.Domain.Entities.ApplicationUsers;
 using NoteKeeperPro.Domain.Entities.Collaborators;
 using NoteKeeperPro.Domain.Entities.Notes;
 using NoteKeeperPro.Domain.Entities.NotesInfo;
 using NoteKeeperPro.Domain.Entities.Tags;
-using NoteKeeperPro.Domain.Entities.Users;
 using NoteKeeperPro.Infrastructure.Identity;
 
 namespace NoteKeeperPro.Infrastructure.Presistance.Data
@@ -36,7 +36,6 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Apply All Configurations Classes
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Collaborator> Collaborators { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<NoteInfo> NoteInfos { get; set; }

@@ -1,0 +1,164 @@
+﻿@using NoteKeeperPro.Web.ViewModels.Notes
+@model NoteViewModel
+@{
+	ViewData["Title"] = "Create";
+	Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Note Page</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: Arial, sans-serif;
+			display: flex;
+			height: 100vh;
+		}
+
+		.container {
+			display: flex;
+			width: 100%;
+		}
+
+		.sidebar {
+			width: 250px;
+			background-color: #f4f4f4;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.search-bar {
+			margin-bottom: 20px;
+			padding: 8px;
+			width: 100%;
+		}
+
+		.notes-list {
+			list-style-type: none;
+		}
+
+		.note-item {
+			padding: 8px;
+			cursor: pointer;
+		}
+
+		.main-content {
+			flex-grow: 1;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.top-buttons {
+			display: flex;
+			justify-content: flex-end;
+			gap: 15px;
+			margin-bottom: 20px;
+		}
+
+		.insert-checklist, .note-info, .actions-btn {
+			padding: 10px 20px;
+			background-color: #007bff;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		.actions {
+			position: relative;
+		}
+
+		.actions-btn:focus + .actions-list {
+			display: block;
+		}
+
+		.actions-list {
+			display: none;
+			position: absolute;
+			top: 100%;
+			right: 0;
+			background-color: white;
+			border: 1px solid #ddd;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			width: 150px;
+			list-style-type: none;
+		}
+
+			.actions-list li {
+				padding: 10px;
+				cursor: pointer;
+			}
+
+				.actions-list li:hover {
+					background-color: #f1f1f1;
+				}
+
+		.note-editor {
+			flex-grow: 1;
+		}
+
+		.note-textarea {
+			width: 100%;
+			height: 100%;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			resize: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- Sidebar -->
+		<div class="sidebar">
+			<input type="text" class="search-bar" placeholder="Search Notes">
+			<ul class="notes-list">
+				<li class="note-item">Note 1</li>
+				<li class="note-item">Note 2</li>
+				<li class="note-item">Note 3</li>
+			</ul>
+		</div>
+
+		<!-- Main Content Area -->
+		<div class="main-content">
+			<div class="top-buttons">
+				<button class="insert-checklist">Insert Checklist</button>
+				<button class="note-info">Note Info</button>
+				<div class="actions">
+					<button class="actions-btn">Actions</button>
+					<ul class="actions-list">
+						<li><button class="pin">Pin</button></li>
+						<li><button class="copy-link">Copy Link</button></li>
+						<li><button class="add-collaborator">Add Collaborator</button></li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Note Content Area -->
+			<div class="note-editor">
+				<textarea class="note-textarea" placeholder="Write your note..."></textarea>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		document.querySelector('.actions-btn').addEventListener('click', function() {
+			const actionsList = document.querySelector('.actions-list');
+			actionsList.style.display = actionsList.style.display === 'block' ? 'none' : 'block';
+		});
+	</script>
+</body>
+</html>
+
+

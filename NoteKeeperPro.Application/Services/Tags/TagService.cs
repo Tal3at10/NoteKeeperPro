@@ -7,7 +7,7 @@ using NoteKeeperPro.Infrastructure.Presistance.Repositories.Tags;
 
 namespace NoteKeeperPro.Application.Services.Tags
 {
-    internal class TagService : ITagService
+    public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
 

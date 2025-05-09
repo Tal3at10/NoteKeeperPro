@@ -13,11 +13,14 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Collaborator> builder)
         {
-            //builder.HasKey(c => c.Id);
+            builder.HasKey(c => c.Id);
 
-            //builder.Property(c => c.PermissionType)
-            //    .HasConversion<int>()  // Store the enum as an integer in the database
-            //    .IsRequired();  // Make sure it's required
+            builder.Property(c => c.PermissionType)
+                    .HasConversion(
+                        PermissionType => PermissionType.ToString(),
+                        PermissionType => (PermissionType)Enum.Parse(typeof(PermissionType), PermissionType)
+                    );
+
         }
     }
 }

@@ -7,15 +7,14 @@ using NoteKeeperPro.Domain.Entities.Collaborators;
 
 namespace NoteKeeperPro.Application.Dtos.Collaborators
 {
-    public class CollaboratorToReturnDto
-    {
-        public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public required string Email { get; set; }
-        public required string UserName { get; set; }
-        public required string Password { get; set; }
-        public required string PhoneNumber { get; set; }
+   public class CollaboratorToReturnDto
+{
+    public int Id { get; set; }
+    public int NoteId { get; set; }
+    public string UserId { get; set; } = null!;
+    public string UserName { get; set; } = null!; // من ApplicationUser.UserName
+    public PermissionType PermissionType { get; set; }
+    public bool IsDeleted { get; set; }
+}
 
-        public PermissionType PermissionType { get; set; }
-    }
 }

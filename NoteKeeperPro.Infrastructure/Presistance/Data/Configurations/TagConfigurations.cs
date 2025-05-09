@@ -9,7 +9,7 @@ using NoteKeeperPro.Domain.Entities.Tags;
 
 namespace NoteKeeperPro.Infrastructure.Presistance.Data.Configurations
 {
-    internal class TagConfigurations : IEntityTypeConfiguration<Tag>
+    public class TagConfigurations : IEntityTypeConfiguration<Tag>
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {

@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using NoteKeeperPro.Infrastructure.Presistance.Data;
-using NoteKeeperPro.Infrastructure.Presistance.Repositories.Users;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.Notes;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.NotesInfo;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.Collaborators;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.Tags;
 using Microsoft.AspNetCore.Identity;
-using NoteKeeperPro.Infrastructure.Identity;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using NoteKeeperPro.Application.Common.Services.EmailSettings;
+using NoteKeeperPro.Infrastructure.Presistance.Repositories.ApplicationUsers;
+using NoteKeeperPro.Domain.Entities.ApplicationUsers;
 
 namespace NoteKeeperPro.Web
 { 
@@ -26,7 +25,7 @@ namespace NoteKeeperPro.Web
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             builder.Services.AddScoped<INoteRepository, NoteRepository>();
             builder.Services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
             builder.Services.AddScoped<ITagRepository,TagRepository>();

@@ -7,7 +7,7 @@ using NoteKeeperPro.Application.Dtos.NotesInfo;
 
 namespace NoteKeeperPro.Application.Services.NotesInfo
 {
-    internal interface INoteInfoService
+    public interface INoteInfoService
     {
         IEnumerable<NoteInfoToReturnDto> GetAllNoteInfos();
         NoteInfoDetailsToReturnDto? GetNoteInfoById(int id);

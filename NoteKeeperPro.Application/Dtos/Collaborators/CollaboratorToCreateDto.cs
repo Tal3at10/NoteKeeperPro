@@ -9,13 +9,9 @@ namespace NoteKeeperPro.Application.Dtos.Collaborators
 {
     public class CollaboratorToCreateDto
     {
-        public DateTime CreatedAt { get; set; }
-        public required string Email { get; set; }
-        public required string UserName { get; set; }
-        public required string Password { get; set; }
-        public required string PhoneNumber { get; set; }
-
-
+        public int NoteId { get; set; }
+        public string UserId { get; set; } = null!;
         public PermissionType PermissionType { get; set; }
     }
+
 }
