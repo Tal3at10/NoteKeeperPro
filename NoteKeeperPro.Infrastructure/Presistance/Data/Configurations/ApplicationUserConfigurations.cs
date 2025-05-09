@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -40,8 +41,14 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Data.Configurations
             builder.Property(u => u.ConcurrencyStamp)
                 .IsConcurrencyToken();
 
+            builder
+    .Property(u => u.LockoutEnd)
+    .HasConversion(
+        v => v.HasValue ? v.Value.DateTime : (DateTime?)null,
+        v => v.HasValue ? new DateTimeOffset(v.Value) : (DateTimeOffset?)null);
+
         }
-        }
+    }
     }
 
 

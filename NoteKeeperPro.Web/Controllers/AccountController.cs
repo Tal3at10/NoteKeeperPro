@@ -70,7 +70,6 @@ namespace NoteKeeperPro.Web.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
@@ -83,11 +82,11 @@ namespace NoteKeeperPro.Web.Controllers
                     var flag = await _userManager.CheckPasswordAsync(user, loginViewModel.Password);
                     if (flag) // Email and Password correct
                     {
-                        // A Token Generated [As Encrypted String]
                         var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, loginViewModel.RememberMe, false);
                         if (result.Succeeded)
                         {
-                            return RedirectToAction("Index", "Home");
+                            // توجيه المستخدم إلى صفحة "CreateNote" بعد تسجيل الدخول بنجاح
+                            return RedirectToAction("Create", "Note");  // هنا يجب التأكد من وجود "CreateNote" Action في Controller المسؤول عن الـ Notes
                         }
                     }
                     else // Email correct but Password incorrect
@@ -103,6 +102,7 @@ namespace NoteKeeperPro.Web.Controllers
 
             return View(loginViewModel);
         }
+
 
         #endregion
 

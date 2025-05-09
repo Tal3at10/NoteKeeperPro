@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NoteKeeperPro.Infrastructure.Presistance.Data;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.Notes;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.NotesInfo;
@@ -11,8 +11,7 @@ using NoteKeeperPro.Infrastructure.Presistance.Repositories.ApplicationUsers;
 using NoteKeeperPro.Domain.Entities.ApplicationUsers;
 
 namespace NoteKeeperPro.Web
-{ 
-  
+{
     public class Program
     {
         public static void Main(string[] args)
@@ -28,41 +27,37 @@ namespace NoteKeeperPro.Web
             builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             builder.Services.AddScoped<INoteRepository, NoteRepository>();
             builder.Services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
-            builder.Services.AddScoped<ITagRepository,TagRepository>();
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
             builder.Services.AddScoped<INoteInfoRepository, NoteInfoRepository>();
             builder.Services.AddScoped<IEmailSettings, EmailSettings>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(Options =>
             {
                 Options.Password.RequireLowercase = true;
-                Options.Password.RequireUppercase= true;
-                Options.Password.RequireDigit= true;
-                Options.Password.RequireNonAlphanumeric= true;
+                Options.Password.RequireUppercase = true;
+                Options.Password.RequireDigit = true;
+                Options.Password.RequireNonAlphanumeric = true;
                 Options.Password.RequiredLength = 5;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders(); // PasswrdSignInAsync depends on AddDefaultTokenProviders
+                .AddDefaultTokenProviders();
 
-            // UserManager , RoleManager, SigningManager
-
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie
-                (Options =>
+            // Authentication and Authorization configuration
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(Options =>
                 {
-                    Options.LoginPath = "/Account/Login";
-                    Options.AccessDeniedPath = "/Home/Error";
-                    Options.LogoutPath = "/Account/Login";
-                }
-
-                );
-
+                    Options.LoginPath = "/Account/Login"; // Path for login
+                    Options.AccessDeniedPath = "/Home/Error"; // Path for access denied
+                    Options.LogoutPath = "/Account/Logout"; // Path for logout
+                    Options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter; // Ensures user returns to the original page after login
+                });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -70,12 +65,13 @@ namespace NoteKeeperPro.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseAuthentication(); // Order Matters Authentication before Authorization
+            app.UseAuthentication(); // Ensure authentication is before authorization
             app.UseAuthorization();
 
+            // Default route - ensure it routes to Home/Index
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Account}/{action=Register}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"); // This routes to Home/Index by default
 
             app.Run();
         }

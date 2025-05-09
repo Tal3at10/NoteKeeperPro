@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
@@ -19,7 +20,10 @@ namespace NoteKeeperPro.Infrastructure.Presistance.Data.Configurations
             builder.Property(n => n.Title).IsRequired().HasMaxLength(100);
 
             builder.Property(n => n.Content).IsRequired().HasColumnType("nvarchar(max)");
-        }
+
+
+         
+    }
 
     }
 }
