@@ -1,16 +1,20 @@
-﻿namespace NoteKeeperPro.Web.ViewModels.Tags
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NoteKeeperPro.Web.ViewModels.Tags
 {
     public class TagViewModel
     {
         public int Id { get; set; }
 
-        // Name of the tag
+        // اسم التاج
+        [Required(ErrorMessage = "اسم التاج مطلوب")]
+        [StringLength(100, ErrorMessage = "اسم التاج يجب أن يكون أقل من 100 حرف.")]
         public string Name { get; set; } = string.Empty;
 
-        // Soft delete flag
+        // علامة الحذف الناعم
         public bool IsDeleted { get; set; } = false;
 
-        // List of notes associated with this tag
+        // قائمة الملاحظات المرتبطة بهذا التاج (سنضع فقط الـ IDs هنا)
         public ICollection<int> NoteIds { get; set; } = new List<int>();
     }
 }

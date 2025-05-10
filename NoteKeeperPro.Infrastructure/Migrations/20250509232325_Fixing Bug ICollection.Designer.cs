@@ -12,8 +12,8 @@ using NoteKeeperPro.Infrastructure.Presistance.Data;
 namespace NoteKeeperPro.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250509020653_IDK")]
-    partial class IDK
+    [Migration("20250509232325_Fixing Bug ICollection")]
+    partial class FixingBugICollection
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -269,6 +269,36 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                     b.ToTable("Collaborators");
                 });
 
+            modelBuilder.Entity("NoteKeeperPro.Domain.Entities.M_M_RelationShips.NoteCollaborator", b =>
+                {
+                    b.Property<int>("NoteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CollaboratorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NoteId", "CollaboratorId");
+
+                    b.HasIndex("CollaboratorId");
+
+                    b.ToTable("NoteCollaborators");
+                });
+
+            modelBuilder.Entity("NoteKeeperPro.Domain.Entities.M_M_RelationShips.NoteTag", b =>
+                {
+                    b.Property<int>("NoteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NoteId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("NoteTags");
+                });
+
             modelBuilder.Entity("NoteKeeperPro.Domain.Entities.Notes.Note", b =>
                 {
                     b.Property<int>("Id")
@@ -360,24 +390,13 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("NoteIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("NoteTag", b =>
-                {
-                    b.Property<int>("NotesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("NotesId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("NoteTag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -434,13 +453,13 @@ namespace NoteKeeperPro.Infrastructure.Migrations
             modelBuilder.Entity("NoteKeeperPro.Domain.Entities.Collaborators.Collaborator", b =>
                 {
                     b.HasOne("NoteKeeperPro.Domain.Entities.Notes.Note", "Note")
-                        .WithMany("Collaborators")
+                        .WithMany()
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("NoteKeeperPro.Domain.Entities.ApplicationUsers.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Collaborators")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -450,12 +469,50 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("NoteKeeperPro.Domain.Entities.M_M_RelationShips.NoteCollaborator", b =>
+                {
+                    b.HasOne("NoteKeeperPro.Domain.Entities.Collaborators.Collaborator", "Collaborator")
+                        .WithMany("NoteCollaborators")
+                        .HasForeignKey("CollaboratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NoteKeeperPro.Domain.Entities.Notes.Note", "Note")
+                        .WithMany("NoteCollaborators")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("Note");
+                });
+
+            modelBuilder.Entity("NoteKeeperPro.Domain.Entities.M_M_RelationShips.NoteTag", b =>
+                {
+                    b.HasOne("NoteKeeperPro.Domain.Entities.Notes.Note", "Note")
+                        .WithMany("NoteTags")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NoteKeeperPro.Domain.Entities.Tags.Tag", "Tag")
+                        .WithMany("NoteTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Note");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("NoteKeeperPro.Domain.Entities.Notes.Note", b =>
                 {
                     b.HasOne("NoteKeeperPro.Domain.Entities.ApplicationUsers.ApplicationUser", "Owner")
-                        .WithMany()
+                        .WithMany("Notes")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Owner");
@@ -466,33 +523,37 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                     b.HasOne("NoteKeeperPro.Domain.Entities.Notes.Note", "Note")
                         .WithOne("NoteInfo")
                         .HasForeignKey("NoteKeeperPro.Domain.Entities.NotesInfo.NoteInfo", "NoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Note");
                 });
 
-            modelBuilder.Entity("NoteTag", b =>
+            modelBuilder.Entity("NoteKeeperPro.Domain.Entities.ApplicationUsers.ApplicationUser", b =>
                 {
-                    b.HasOne("NoteKeeperPro.Domain.Entities.Notes.Note", null)
-                        .WithMany()
-                        .HasForeignKey("NotesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Collaborators");
 
-                    b.HasOne("NoteKeeperPro.Domain.Entities.Tags.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Notes");
+                });
+
+            modelBuilder.Entity("NoteKeeperPro.Domain.Entities.Collaborators.Collaborator", b =>
+                {
+                    b.Navigation("NoteCollaborators");
                 });
 
             modelBuilder.Entity("NoteKeeperPro.Domain.Entities.Notes.Note", b =>
                 {
-                    b.Navigation("Collaborators");
+                    b.Navigation("NoteCollaborators");
 
                     b.Navigation("NoteInfo")
                         .IsRequired();
+
+                    b.Navigation("NoteTags");
+                });
+
+            modelBuilder.Entity("NoteKeeperPro.Domain.Entities.Tags.Tag", b =>
+                {
+                    b.Navigation("NoteTags");
                 });
 #pragma warning restore 612, 618
         }

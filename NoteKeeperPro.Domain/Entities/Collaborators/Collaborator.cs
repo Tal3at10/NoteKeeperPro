@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NoteKeeperPro.Domain.Entities.ApplicationUsers;
+using NoteKeeperPro.Domain.Entities.M_M_RelationShips;
 using NoteKeeperPro.Domain.Entities.Notes;
 using NoteKeeperPro.Infrastructure.Identity;
 
@@ -35,6 +36,9 @@ namespace NoteKeeperPro.Domain.Entities.Collaborators
 
         // Soft delete flag for collaboration (e.g., revoked access)
         public bool IsDeleted { get; set; } = false;
+
+        // علاقة مع Note عبر NoteCollaborator
+        public ICollection<NoteCollaborator> NoteCollaborators { get; set; } = new HashSet<NoteCollaborator>();
     }
 
 

@@ -1,31 +1,25 @@
-﻿namespace NoteKeeperPro.Web.ViewModels.Collaborators
-{
-    
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace NoteKeeperPro.Web.ViewModels.Collaborators
+{
     public class CollaboratorViewModel
     {
-       
         public int Id { get; set; }
 
-        // FK to the shared note
+        [Required(ErrorMessage = "Note ID is required.")]
         public int NoteId { get; set; }
 
-        // Navigation to the note being shared (for display purposes)
-        public string NoteTitle { get; set; } = string.Empty; // Assuming the note has a title for display
+        public string NoteTitle { get; set; } = string.Empty;
 
-        // FK to the collaborating user
+        [Required(ErrorMessage = "User ID is required.")]
         public string UserId { get; set; } = string.Empty;
 
-        // Navigation to the collaborating user (for display purposes)
-        public string UserName { get; set; } = string.Empty; // Assuming user has a username or similar property
+        public string UserName { get; set; } = string.Empty;
 
-        // Access level of the collaborator (Read, Write, etc.)
+        [Required(ErrorMessage = "Permission type is required.")]
+        [StringLength(20, ErrorMessage = "Permission type must be 20 characters or fewer.")]
         public string? PermissionType { get; set; }
 
-        // Soft delete flag for collaboration (e.g., revoked access)
         public bool IsDeleted { get; set; } = false;
-
-     
-        
     }
 }

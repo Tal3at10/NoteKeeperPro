@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NoteKeeperPro.Domain.Entities.ApplicationUsers;
 using NoteKeeperPro.Domain.Entities.Collaborators;
+using NoteKeeperPro.Domain.Entities.M_M_RelationShips;
 using NoteKeeperPro.Domain.Entities.NotesInfo;
 using NoteKeeperPro.Domain.Entities.Tags;
 using NoteKeeperPro.Infrastructure.Identity;
@@ -32,14 +33,15 @@ namespace NoteKeeperPro.Domain.Entities.Notes
         // Navigation to the owner user
         public ApplicationUser Owner { get; set; } = null!;
 
+
         // Navigation to metadata info (e.g. word count)
         public NoteInfo NoteInfo { get; set; } = null!;
 
-        // Users collaborating on this note
-        public ICollection<Collaborator> Collaborators { get; set; } = new List<Collaborator>();
+        // علاقة مع Collaborator عبر جدول وسيط
+        public ICollection<NoteCollaborator> NoteCollaborators { get; set; } = new HashSet<NoteCollaborator>();
 
-        // Tags associated with the note
-        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        // علاقة مع Tag عبر NoteTag
+        public ICollection<NoteTag> NoteTags { get; set; } = new HashSet<NoteTag>();
     }
 
 }

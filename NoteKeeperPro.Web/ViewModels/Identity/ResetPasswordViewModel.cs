@@ -13,5 +13,9 @@ namespace NoteKeeperPro.Web.ViewModels.Identity
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         [Display(Name = "Confirm Password")]
         public string ConfirmedPassword { get; set; } = null!;
+
+        // إضافة الخصائص المفقودة
+        public string Email { get; set; } = null!;
+        public string Token { get; set; } = null!;
     }
 }

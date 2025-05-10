@@ -68,12 +68,13 @@ namespace NoteKeeperPro.Web
             app.UseAuthentication(); // Ensure authentication is before authorization
             app.UseAuthorization();
 
-            // Default route - ensure it routes to Home/Index
+            // Default route - ensure it routes to MainPage/Index
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"); // This routes to Home/Index by default
+                pattern: "{controller=Account}/{action=Register}/"); // This routes to MainPage/Index by default
 
             app.Run();
+
         }
     }
 }

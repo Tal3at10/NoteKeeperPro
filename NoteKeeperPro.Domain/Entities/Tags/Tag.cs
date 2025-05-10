@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NoteKeeperPro.Domain.Entities.M_M_RelationShips;
 using NoteKeeperPro.Domain.Entities.Notes;
 
 namespace NoteKeeperPro.Domain.Entities.Tags
@@ -16,8 +17,12 @@ namespace NoteKeeperPro.Domain.Entities.Tags
         // Soft delete flag
         public bool IsDeleted { get; set; } = false;
 
+
+        // علاقة مع Note عبر NoteTag
+        public ICollection<NoteTag> NoteTags { get; set; } = new HashSet<NoteTag>();
+
         // Notes associated with this tag (many-to-many)
-        public ICollection<Note> Notes { get; set; } = new List<Note>();
+        public List<int> NoteIds { get; set; } = new List<int>();
     }
 
 }

@@ -50,6 +50,8 @@ namespace NoteKeeperPro.Web.Controllers
                 var result = _tagService.CreateTag(new TagToCreateDto()
                 {
                     Name = tagVM.Name,
+                    IsDeleted = tagVM.IsDeleted,  // إضافة الحقل IsDeleted
+                    NoteIds = tagVM.NoteIds       // إضافة الحقل NoteIds
                 });
 
                 if (result > 0)
@@ -101,6 +103,8 @@ namespace NoteKeeperPro.Web.Controllers
             return View(new TagViewModel
             {
                 Name = tag.Name,
+                IsDeleted = tag.IsDeleted,  // إضافة الحقل IsDeleted
+                NoteIds = tag.NoteIds      // إضافة الحقل NoteIds
             });
         }
 
@@ -119,6 +123,8 @@ namespace NoteKeeperPro.Web.Controllers
                 {
                     Id = id,
                     Name = tagVM.Name,
+                    IsDeleted = tagVM.IsDeleted,  // إضافة الحقل IsDeleted
+                    NoteIds = tagVM.NoteIds       // إضافة الحقل NoteIds
                 });
 
                 if (result > 0)
@@ -182,5 +188,4 @@ namespace NoteKeeperPro.Web.Controllers
         }
         #endregion
     }
-
 }

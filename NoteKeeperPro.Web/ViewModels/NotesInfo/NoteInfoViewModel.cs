@@ -1,25 +1,26 @@
-﻿namespace NoteKeeperPro.Web.ViewModels.NotesInfo
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NoteKeeperPro.Web.ViewModels.NotesInfo
 {
     public class NoteInfoViewModel
     {
         public int Id { get; set; }
 
-        // The note this info belongs to
+        [Required(ErrorMessage = "Note ID is required.")]
         public int NoteId { get; set; }
 
-        // Timestamp of note creation
+        [Required(ErrorMessage = "Creation date is required.")]
         public DateTime CreatedAt { get; set; }
 
-        // Timestamp of the last modification of the note
+        [Required(ErrorMessage = "Last modification date is required.")]
         public DateTime LastModifiedAt { get; set; }
 
-        // Word count in the note
+        [Range(0, int.MaxValue, ErrorMessage = "Word count must be a non-negative number.")]
         public int WordCount { get; set; }
 
-        // Character count in the note
+        [Range(0, int.MaxValue, ErrorMessage = "Character count must be a non-negative number.")]
         public int CharacterCount { get; set; }
 
-        // Soft delete flag
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NoteKeeperPro.Application.Dtos.NotesInfo;
+using NoteKeeperPro.Application.Services.Notes;
 using NoteKeeperPro.Application.Services.NotesInfo;
 using NoteKeeperPro.Web.ViewModels.NotesInfo;
 
@@ -9,12 +10,14 @@ namespace NoteKeeperPro.Web.Controllers
     {
         #region Services
         private readonly INoteInfoService _noteInfoService;
+        private readonly INoteService _noteService; // إضافة خدمة الملاحظات
         private readonly ILogger<NoteInfoController> _logger;
         private readonly IWebHostEnvironment _env;
 
-        public NoteInfoController(INoteInfoService noteInfoService, ILogger<NoteInfoController> logger, IWebHostEnvironment env)
+        public NoteInfoController(INoteInfoService noteInfoService, INoteService noteService, ILogger<NoteInfoController> logger, IWebHostEnvironment env)
         {
             _noteInfoService = noteInfoService;
+            _noteService = noteService; // إضافة الخدمة للملاحظات
             _logger = logger;
             _env = env;
         }
@@ -26,67 +29,6 @@ namespace NoteKeeperPro.Web.Controllers
         {
             var noteInfos = _noteInfoService.GetAllNoteInfos();
             return View(noteInfos);
-        }
-        #endregion
-
-        #region Create
-        [HttpGet]
-        public IActionResult Create()
-        {
-            // If you need any extra data, like notes, pass them to the view here
-            // ViewData["Notes"] = _noteInfoService.GetAllNotes();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(NoteInfoViewModel noteInfoVM)
-        {
-            if (!ModelState.IsValid)
-                return View(noteInfoVM);
-
-            var message = string.Empty;
-
-            try
-            {
-                var result = _noteInfoService.CreateNoteInfo(new NoteInfoToCreateDto()
-                {
-                    //NoteId = noteInfoVM.NoteId,
-                    CreatedAt = noteInfoVM.CreatedAt,
-                    LastModifiedAt = noteInfoVM.LastModifiedAt,
-                    WordCount = noteInfoVM.WordCount,
-                    CharchterCount = noteInfoVM.CharacterCount,
-                    // IsDeleted can be set to false by default, depending on your logic
-                });
-
-                if (result > 0)
-                {
-                    TempData["Message"] = "New Note Info Created Successfully";
-                }
-                else
-                {
-                    message = "Note Info Cannot be Created";
-                    TempData["Message"] = message;
-                    ModelState.AddModelError(string.Empty, message);
-                    return View(noteInfoVM);
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, message);
-
-                if (_env.IsDevelopment())
-                {
-                    message = ex.Message;
-                    return View(noteInfoVM);
-                }
-                else
-                {
-                    message = "Note Info Cannot be Created";
-                    return View("Error", message);
-                }
-            }
         }
         #endregion
 
@@ -105,68 +47,6 @@ namespace NoteKeeperPro.Web.Controllers
         }
         #endregion
 
-        #region Edit
-        [HttpGet]
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-                return BadRequest(); // error 400
-
-            var noteInfo = _noteInfoService.GetNoteInfoById(id.Value);
-            if (noteInfo == null)
-                return NotFound(); // error 404
-
-            return View(new NoteInfoViewModel
-            {
-                NoteId = noteInfo.NoteId,
-                CreatedAt = noteInfo.CreatedAt,
-                LastModifiedAt = noteInfo.LastModifiedAt,
-                WordCount = noteInfo.WordCount,
-                CharacterCount = noteInfo.CharchterCount,
-                // IsDeleted is handled in service by default if needed
-            });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, NoteInfoViewModel noteInfoVM)
-        {
-            if (!ModelState.IsValid)
-                return View(noteInfoVM);
-
-            var message = string.Empty;
-
-            try
-            {
-                var result = _noteInfoService.UpdateNoteInfo(new NoteInfoToUpdateDto()
-                {
-                    Id = id,
-                    NoteId = noteInfoVM.NoteId,
-                    CreatedAt = noteInfoVM.CreatedAt,
-                    LastModifiedAt = noteInfoVM.LastModifiedAt,
-                    WordCount = noteInfoVM.WordCount,
-                    CharchterCount = noteInfoVM.CharacterCount,
-                    // IsDeleted can be handled in the service, too
-                });
-
-                if (result > 0)
-                {
-                    TempData["Message"] = "Note Info Updated Successfully";
-                }
-                else
-                {
-                    message = "Note Info Cannot Be Updated";
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                message = _env.IsDevelopment() ? ex.Message : "Note Info Cannot Be Updated";
-                return View(noteInfoVM);
-            }
-        }
-        #endregion
-
         #region Delete
         [HttpGet]
         public IActionResult Delete(int? id)
@@ -175,8 +55,9 @@ namespace NoteKeeperPro.Web.Controllers
                 return BadRequest();
 
             var noteInfo = _noteInfoService.GetNoteInfoById(id.Value);
+            var note = _noteService.GetNoteById(id.Value); // التأكد من الملاحظة المرتبطة
 
-            if (noteInfo == null) return NotFound();
+            if (noteInfo == null || note == null) return NotFound();
             return View(noteInfo);
         }
 
@@ -184,14 +65,15 @@ namespace NoteKeeperPro.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            var result = _noteInfoService.DeleteNoteInfo(id);
+            var result = _noteInfoService.DeleteNoteInfo(id); // حذف NoteInfo فقط إذا كانت موجودة
             var message = string.Empty;
 
             try
             {
-                if (result)
+                var noteResult = _noteService.DeleteNote(id); // حذف الملاحظة نفسها
+                if (noteResult)
                 {
-                    TempData["Message"] = "Note Info Deleted Successfully";
+                    TempData["Message"] = "Note and Note Info Deleted Successfully";
                     return RedirectToAction(nameof(Index));
                 }
                 message = "An Error Happened while Deleting";
@@ -206,5 +88,4 @@ namespace NoteKeeperPro.Web.Controllers
         }
         #endregion
     }
-
 }

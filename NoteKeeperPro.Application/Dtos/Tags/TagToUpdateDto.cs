@@ -17,6 +17,6 @@ namespace NoteKeeperPro.Application.Dtos.Tags
         public bool IsDeleted { get; set; } = false;
 
         // Notes associated with this tag (many-to-many)
-        public ICollection<Note> Notes { get; set; } = new List<Note>();
+        public ICollection<int> NoteIds { get; set; } = new List<int>();
     }
 }

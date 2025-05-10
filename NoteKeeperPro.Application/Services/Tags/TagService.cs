@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Azure;
 using NoteKeeperPro.Application.Dtos.Tags;
 using NoteKeeperPro.Domain.Entities.Tags;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.Tags;
@@ -24,6 +25,7 @@ namespace NoteKeeperPro.Application.Services.Tags
                 {
                     Id = t.Id,
                     Name = t.Name,
+                    NoteIds = t.NoteIds,
                 }).ToList();
 
             return tags;
@@ -39,7 +41,8 @@ namespace NoteKeeperPro.Application.Services.Tags
                 {
                     Id = tag.Id,
                     Name = tag.Name,
-                  
+                    NoteIds = tag.NoteIds,
+
                 };
             }
 
@@ -51,7 +54,8 @@ namespace NoteKeeperPro.Application.Services.Tags
             var newTag = new Tag
             {
                 Name = tag.Name,
-               
+                NoteIds = tag.NoteIds.ToList(),
+
             };
 
             return _tagRepository.AddTag(newTag);
@@ -63,6 +67,7 @@ namespace NoteKeeperPro.Application.Services.Tags
             {
                 Id = tag.Id,
                 Name = tag.Name,
+                NoteIds = tag.NoteIds.ToList(),
                
             };
 

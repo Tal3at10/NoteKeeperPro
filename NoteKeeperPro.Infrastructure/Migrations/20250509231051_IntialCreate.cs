@@ -6,95 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NoteKeeperPro.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class IDK : Migration
+    public partial class IntialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "User");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsDeleted",
-                table: "Tags",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "CreatedAt",
-                table: "Notes",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsDeleted",
-                table: "Notes",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<string>(
-                name: "OwnerId",
-                table: "Notes",
-                type: "nvarchar(450)",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "UpdatedAt",
-                table: "Notes",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsDeleted",
-                table: "NoteInfos",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<int>(
-                name: "NoteId",
-                table: "NoteInfos",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "PermissionType",
-                table: "Collaborators",
-                type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsDeleted",
-                table: "Collaborators",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<int>(
-                name: "NoteId",
-                table: "Collaborators",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<string>(
-                name: "UserId",
-                table: "Collaborators",
-                type: "nvarchar(450)",
-                nullable: false,
-                defaultValue: "");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -139,27 +55,18 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NoteTag",
+                name: "Tags",
                 columns: table => new
                 {
-                    NotesId = table.Column<int>(type: "int", nullable: false),
-                    TagsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    NoteIds = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NoteTag", x => new { x.NotesId, x.TagsId });
-                    table.ForeignKey(
-                        name: "FK_NoteTag_Notes_NotesId",
-                        column: x => x.NotesId,
-                        principalTable: "Notes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_NoteTag_Tags_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tags",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,26 +175,129 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Notes_OwnerId",
-                table: "Notes",
-                column: "OwnerId");
+            migrationBuilder.CreateTable(
+                name: "Notes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notes_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_NoteInfos_NoteId",
-                table: "NoteInfos",
-                column: "NoteId",
-                unique: true);
+            migrationBuilder.CreateTable(
+                name: "Collaborators",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NoteId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PermissionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Collaborators", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Collaborators_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Collaborators_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Collaborators_NoteId",
-                table: "Collaborators",
-                column: "NoteId");
+            migrationBuilder.CreateTable(
+                name: "NoteInfos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NoteId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    WordCount = table.Column<int>(type: "int", nullable: false),
+                    CharchterCount = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NoteInfos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NoteInfos_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Collaborators_UserId",
-                table: "Collaborators",
-                column: "UserId");
+            migrationBuilder.CreateTable(
+                name: "NoteTags",
+                columns: table => new
+                {
+                    NoteId = table.Column<int>(type: "int", nullable: false),
+                    TagId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NoteTags", x => new { x.NoteId, x.TagId });
+                    table.ForeignKey(
+                        name: "FK_NoteTags_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_NoteTags_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NoteCollaborators",
+                columns: table => new
+                {
+                    NoteId = table.Column<int>(type: "int", nullable: false),
+                    CollaboratorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NoteCollaborators", x => new { x.NoteId, x.CollaboratorId });
+                    table.ForeignKey(
+                        name: "FK_NoteCollaborators_Collaborators_CollaboratorId",
+                        column: x => x.CollaboratorId,
+                        principalTable: "Collaborators",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_NoteCollaborators_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -329,62 +339,40 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NoteTag_TagsId",
-                table: "NoteTag",
-                column: "TagsId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Collaborators_AspNetUsers_UserId",
+                name: "IX_Collaborators_NoteId",
                 table: "Collaborators",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "NoteId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Collaborators_Notes_NoteId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Collaborators_UserId",
                 table: "Collaborators",
-                column: "NoteId",
-                principalTable: "Notes",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "UserId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_NoteInfos_Notes_NoteId",
+            migrationBuilder.CreateIndex(
+                name: "IX_NoteCollaborators_CollaboratorId",
+                table: "NoteCollaborators",
+                column: "CollaboratorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NoteInfos_NoteId",
                 table: "NoteInfos",
                 column: "NoteId",
-                principalTable: "Notes",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                unique: true);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Notes_AspNetUsers_OwnerId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Notes_OwnerId",
                 table: "Notes",
-                column: "OwnerId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NoteTags_TagId",
+                table: "NoteTags",
+                column: "TagId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Collaborators_AspNetUsers_UserId",
-                table: "Collaborators");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Collaborators_Notes_NoteId",
-                table: "Collaborators");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_NoteInfos_Notes_NoteId",
-                table: "NoteInfos");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Notes_AspNetUsers_OwnerId",
-                table: "Notes");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -401,110 +389,28 @@ namespace NoteKeeperPro.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "NoteTag");
+                name: "NoteCollaborators");
+
+            migrationBuilder.DropTable(
+                name: "NoteInfos");
+
+            migrationBuilder.DropTable(
+                name: "NoteTags");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Collaborators");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "Notes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Notes_OwnerId",
-                table: "Notes");
-
-            migrationBuilder.DropIndex(
-                name: "IX_NoteInfos_NoteId",
-                table: "NoteInfos");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Collaborators_NoteId",
-                table: "Collaborators");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Collaborators_UserId",
-                table: "Collaborators");
-
-            migrationBuilder.DropColumn(
-                name: "IsDeleted",
-                table: "Tags");
-
-            migrationBuilder.DropColumn(
-                name: "CreatedAt",
-                table: "Notes");
-
-            migrationBuilder.DropColumn(
-                name: "IsDeleted",
-                table: "Notes");
-
-            migrationBuilder.DropColumn(
-                name: "OwnerId",
-                table: "Notes");
-
-            migrationBuilder.DropColumn(
-                name: "UpdatedAt",
-                table: "Notes");
-
-            migrationBuilder.DropColumn(
-                name: "IsDeleted",
-                table: "NoteInfos");
-
-            migrationBuilder.DropColumn(
-                name: "NoteId",
-                table: "NoteInfos");
-
-            migrationBuilder.DropColumn(
-                name: "IsDeleted",
-                table: "Collaborators");
-
-            migrationBuilder.DropColumn(
-                name: "NoteId",
-                table: "Collaborators");
-
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Collaborators");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "PermissionType",
-                table: "Collaborators",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AltLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ETag = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ResourceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SelfLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
         }
     }
 }
