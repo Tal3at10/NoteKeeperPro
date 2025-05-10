@@ -10,6 +10,7 @@ namespace NoteKeeperPro.Application.Dtos.Collaborators
     public class CollaboratorToUpdateDto
     {
         public int Id { get; set; }
+        public string UserName { get; set; } = null!; // من ApplicationUser.UserName
         public PermissionType PermissionType { get; set; }
     }
 

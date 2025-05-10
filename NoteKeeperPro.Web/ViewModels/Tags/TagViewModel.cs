@@ -6,15 +6,15 @@ namespace NoteKeeperPro.Web.ViewModels.Tags
     {
         public int Id { get; set; }
 
-        // اسم التاج
-        [Required(ErrorMessage = "اسم التاج مطلوب")]
-        [StringLength(100, ErrorMessage = "اسم التاج يجب أن يكون أقل من 100 حرف.")]
+        // Tag name
+        [Required(ErrorMessage = "Tag name is required.")]
+        [StringLength(100, ErrorMessage = "Tag name must be less than 100 characters.")]
         public string Name { get; set; } = string.Empty;
 
-        // علامة الحذف الناعم
+        // Soft delete flag
         public bool IsDeleted { get; set; } = false;
 
-        // قائمة الملاحظات المرتبطة بهذا التاج (سنضع فقط الـ IDs هنا)
+        // List of notes associated with this tag (we will only store the IDs here)
         public ICollection<int> NoteIds { get; set; } = new List<int>();
     }
 }

@@ -16,7 +16,15 @@ namespace NoteKeeperPro.Application.Dtos.Notes
         public required string Title { get; set; }
         public required string Content { get; set; }
 
-       
-       
+
+        // List of collaborators on the note
+        public ICollection<CollaboratorDetailsToReturnDto> Collaborators { get; set; }
+
+        // List of tags associated with the note
+        public ICollection<TagDetailsToReturnDto> Tags { get; set; }
+
+
+
+
     }
 }

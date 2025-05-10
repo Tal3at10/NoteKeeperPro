@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NoteKeeperPro.Application.Dtos.Tags;
 using NoteKeeperPro.Application.Services.Tags;
 using NoteKeeperPro.Web.ViewModels.Tags;
 
 namespace NoteKeeperPro.Web.Controllers
 {
+    [Authorize]
     public class TagController : Controller
     {
         #region Services

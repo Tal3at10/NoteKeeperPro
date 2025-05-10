@@ -9,7 +9,7 @@ namespace NoteKeeperPro.Application.Services.Notes
 {
     public interface INoteService
     {
-        IEnumerable<NoteToReturnDto> GetAllNotes();
+        IEnumerable<NoteToReturnDto> GetAllNotes(string SearchValue = null);
         NoteDetailsToReturnDto? GetNoteById(int id);
         int CreateNote(NoteToCreateDto note);
         int UpdateNote(NoteToUpdateDto note);

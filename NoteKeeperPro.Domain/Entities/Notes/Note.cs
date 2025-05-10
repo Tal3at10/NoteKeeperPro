@@ -18,13 +18,10 @@ namespace NoteKeeperPro.Domain.Entities.Notes
         public required string Title { get; set; }
         public required string Content { get; set; }
 
-        // Timestamp of note creation
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Timestamp of last update to the note
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // Soft delete flag
         public bool IsDeleted { get; set; } = false;
 
         // FK to the user who owns this note
@@ -33,14 +30,13 @@ namespace NoteKeeperPro.Domain.Entities.Notes
         // Navigation to the owner user
         public ApplicationUser Owner { get; set; } = null!;
 
-
-        // Navigation to metadata info (e.g. word count)
+        // Navigation to info 
         public NoteInfo NoteInfo { get; set; } = null!;
 
-        // علاقة مع Collaborator عبر جدول وسيط
+        // M-M relationShip with Colaborator with NoteCollaborator Middle Table
         public ICollection<NoteCollaborator> NoteCollaborators { get; set; } = new HashSet<NoteCollaborator>();
 
-        // علاقة مع Tag عبر NoteTag
+        // M-M relationShip with Tag with Middle Table
         public ICollection<NoteTag> NoteTags { get; set; } = new HashSet<NoteTag>();
     }
 

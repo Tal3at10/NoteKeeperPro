@@ -22,6 +22,8 @@ namespace NoteKeeperPro.Domain.Entities.Collaborators
         // FK to the shared note
         public int NoteId { get; set; }
 
+        public string UserName { get; set; }
+
         // Navigation to the note being shared
         public Note Note { get; set; } = null!;
 

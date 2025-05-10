@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NoteKeeperPro.Application.Dtos.Collaborators;
 using NoteKeeperPro.Application.Services.Collaborators;
 using NoteKeeperPro.Web.ViewModels.Collaborators;
 
 namespace NoteKeeperPro.Web.Controllers
 {
-        #region Services
+    [Authorize]
+
+    #region Services
     public class CollaboratorController : Controller
     {
         private readonly ICollaboratorService _collaboratorService;

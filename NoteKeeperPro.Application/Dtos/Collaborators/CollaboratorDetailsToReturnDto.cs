@@ -14,6 +14,8 @@ namespace NoteKeeperPro.Application.Dtos.Collaborators
         public int Id { get; set; }
         public int NoteId { get; set; }
 
+        public string UserName { get; set; }
+
        public Note Note { get; set; } = null!;
 
         // FK to the collaborating user

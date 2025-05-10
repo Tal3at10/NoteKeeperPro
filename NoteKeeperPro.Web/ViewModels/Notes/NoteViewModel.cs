@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using NoteKeeperPro.Domain.Entities.M_M_RelationShips;
 using NoteKeeperPro.Web.ViewModels.Collaborators;
 
 namespace NoteKeeperPro.Web.ViewModels.Notes
@@ -14,25 +15,10 @@ namespace NoteKeeperPro.Web.ViewModels.Notes
         [Required(ErrorMessage = "Content is required.")]
         public string Content { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "CreatedAt is required.")]
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
-
-        [Required(ErrorMessage = "UpdatedAt is required.")]
-        [DataType(DataType.DateTime)]
-        public DateTime UpdatedAt { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        [Required(ErrorMessage = "OwnerId is required.")]
-        public string OwnerId { get; set; } = string.Empty;
-
-        public string OwnerName { get; set; } = string.Empty;
-
         public string NoteInfo { get; set; } = string.Empty;
 
         public List<CollaboratorViewModel> Collaborators { get; set; } = new();
-
         public List<string> TagNames { get; set; } = new();
     }
+
 }

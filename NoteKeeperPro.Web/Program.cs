@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using NoteKeeperPro.Application.Common.Services.EmailSettings;
 using NoteKeeperPro.Infrastructure.Presistance.Repositories.ApplicationUsers;
 using NoteKeeperPro.Domain.Entities.ApplicationUsers;
+using NoteKeeperPro.Application.Services.Notes;
 
 namespace NoteKeeperPro.Web
 {
@@ -22,6 +23,7 @@ namespace NoteKeeperPro.Web
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDbContext>((options) =>
             {
+
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
@@ -30,6 +32,8 @@ namespace NoteKeeperPro.Web
             builder.Services.AddScoped<ITagRepository, TagRepository>();
             builder.Services.AddScoped<INoteInfoRepository, NoteInfoRepository>();
             builder.Services.AddScoped<IEmailSettings, EmailSettings>();
+            builder.Services.AddScoped<INoteService, NoteService>();
+
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(Options =>
             {
@@ -71,7 +75,7 @@ namespace NoteKeeperPro.Web
             // Default route - ensure it routes to MainPage/Index
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Account}/{action=Register}/"); // This routes to MainPage/Index by default
+                pattern: "{controller=Home}/{action=Index}/"); // This routes to MainPage/Index by default
 
             app.Run();
 

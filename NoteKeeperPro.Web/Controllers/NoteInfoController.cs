@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NoteKeeperPro.Application.Dtos.NotesInfo;
 using NoteKeeperPro.Application.Services.Notes;
 using NoteKeeperPro.Application.Services.NotesInfo;
@@ -6,6 +7,7 @@ using NoteKeeperPro.Web.ViewModels.NotesInfo;
 
 namespace NoteKeeperPro.Web.Controllers
 {
+    [Authorize]
     public class NoteInfoController : Controller
     {
         #region Services

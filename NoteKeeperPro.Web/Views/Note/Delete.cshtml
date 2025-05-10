@@ -1,8 +1,10 @@
-﻿
+﻿@using NoteKeeperPro.Application.Dtos.Notes
+@model NoteDetailsToReturnDto
+
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
+<h1 class="my-5 w-75 m-auto"> Delete Employee</h1>
+<partial name="Partials/DeleteDetailsNotePartial" />
 
